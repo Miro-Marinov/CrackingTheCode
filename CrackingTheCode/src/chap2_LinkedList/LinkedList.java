@@ -1,6 +1,6 @@
 package chap2_LinkedList;
 
-public class LinkedList<T extends Comparable<T>> {
+public class LinkedList {
 
   private Node head;
 
@@ -8,18 +8,7 @@ public class LinkedList<T extends Comparable<T>> {
     this.head = head;
   }
 
-  class Node {
-    T value;
-    Node next;
-
-    Node(T value, Node next) {
-      this.value = value;
-      this.next = next;
-    }
-  }
-
-
-  public void insert(T value) {
+  public void insert(Integer value) {
     Node newNode = new Node(value, head);
     head = newNode;
   }
@@ -53,7 +42,7 @@ public class LinkedList<T extends Comparable<T>> {
 
 
 
-  public Node contains(T value) {
+  public Node contains(Integer value) {
     Node cur = head;
     while (cur != null) {
       if (cur.value == value)
@@ -86,12 +75,12 @@ public class LinkedList<T extends Comparable<T>> {
     return reverse(next, cur);
   }
   
-  public void addAfter(Node node, T value) {
+  public void addAfter(Node node, Integer value) {
     Node newNode = new Node(value, node.next);
     node.next = newNode;
   }
   
-  public void addInorder(T value) {
+  public void addInorder(Integer value) {
     if(isEmpty() || head.value.compareTo(value) > 0) insert(value);
     else {
       Node cur = head;
@@ -157,7 +146,7 @@ public class LinkedList<T extends Comparable<T>> {
     return p1;
   }
   
-  public Node partitionAroundX(T x) {
+  public Node partitionAroundX(Integer x) {
     Node begSmall  = null; // INITIALIZE
     Node endSmall  = null; // INITIALIZE !!!! ...
     
@@ -169,7 +158,7 @@ public class LinkedList<T extends Comparable<T>> {
     
     while(cur!= null) {
       Node next = cur.next; // !!! need to save here
-      
+      // cur.next = null; // OMFGG!!!!!!! this is hard
       // add to the smaller
       if(cur.value.compareTo(x) < 0) {
         if(begSmall == null) {
@@ -193,16 +182,19 @@ public class LinkedList<T extends Comparable<T>> {
           endLarge = cur;
         }
       }
-      cur = next;
+      cur = next; // use saved here
     }
-    // CHECH IF Small is empty
+    // CHECK IF Small is empty
+    if(endLarge!= null) endLarge.next = null; // OMFGG not so hard - my Way !!!
     if(begSmall == null) return begLarge; //!!!!!!!!!!!!!!!!!!!!!
       endSmall.next = begLarge;
       return begSmall; 
   }
+  
+  
 
   public static void main(String[] args) {
-    LinkedList<Integer> list = new LinkedList<Integer>(null);
+    LinkedList list = new LinkedList(null);
     list.insert(2);
     list.insert(4);
     list.remove();
@@ -222,5 +214,7 @@ public class LinkedList<T extends Comparable<T>> {
     list.printKthToEnd(8);
     System.out.println(list.getKthToEnd(7).value);
     System.out.println(list.getKthToEndIter(7).value);
+    list.head = list.partitionAroundX(4);
+    list.print();
   }
 }
