@@ -1,29 +1,33 @@
 package chap3_Stacks_Queues;
 
+
 public class Queue {
-	Node first;
-	Node last;
-	Node min;
+	Node first = null;
+	Node last = null;
+
 	
 	public void insert (Integer val) {
-			last = new Node(val, last); // WORKS?
-			if(min == null || min.value > val) {
-				min = last;
-			}
-			if(isEmpty()) first = last;
+	 
+	  
+	  if(isEmpty()) {
+	        last = new Node(val, last); // WORKS?
+	        first = last;
+	  }
+	  else {
+	    last.next = new Node(val, null);
+	    last = last.next;
+	  }
 	}
 	
 	public Integer get () {
-		
 		if(isEmpty()) return null;
+		
+
 		Integer toReturn = first.value;
 		first = first.next;
 		return toReturn;
 	}
 	
-	public Integer min () {
-		return min.value;
-	}
 	
 	public Integer peek () {
 		return isEmpty() ? null : first.value;
@@ -32,4 +36,24 @@ public class Queue {
 	public boolean isEmpty() {
 		return first == null;
 	}
+	
+	public void print() {
+	    Node cur = first;
+	    while (cur != null) {
+	      System.out.print(cur.value.toString() + " ");
+	      cur = cur.next;
+	    }
+	    System.out.println();
+	  }
+	  
+	  public static void main(String[] args) {
+	    Queue q = new Queue();
+	    q.insert(5);
+	    q.insert(5);
+	    q.insert(2);
+	    
+	    
+	    q.print();
+	    System.out.print(q.get() + " " + q.peek() + " " + q.get());
+	  }
 }
