@@ -84,4 +84,28 @@ public class Tree {
     return hasPathSum(cur.left, sum) | hasPathSum(cur.right, sum);
   }
   
+  public boolean isBST() {
+    return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+  }
+  
+  private boolean isBST(Node cur, Integer min, Integer max) {
+    if(cur == null) return true;
+    if(cur.val < min || cur.val > max) return false;
+    return isBST(cur.left, min, cur.val) & isBST(cur.right, cur.val + 1, max);
+  }
+  
+  public boolean isBalanced() {
+    if( checkHeight(root) == -1) return false;
+    return true;
+  }
+  
+  private int checkHeight(Node cur) {
+    if(cur == null) return 0;
+    int left = checkHeight(cur.left);
+    int right = checkHeight(cur.right);
+    if(left == -1 || right == -1) return -1;
+    if(Math.abs(left - right ) > 1) return -1;
+    return Math.max(left, right) + 1;
+  }
+   
 }
