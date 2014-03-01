@@ -1,3 +1,4 @@
+package chap_10_sorting_searching;
 
 public class Quick {
 	public Integer[] quick(Integer[] a) {
